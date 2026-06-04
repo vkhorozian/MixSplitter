@@ -83,4 +83,4 @@ MixSplitter/
 
 ## License
 
-Add a license file (e.g. MIT) if you plan to share this project publicly.
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
