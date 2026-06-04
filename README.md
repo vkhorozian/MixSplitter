@@ -25,7 +25,7 @@ Download a build from [ffmpeg.org](https://ffmpeg.org/download.html) or [gyan.de
 ## Installation
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/MixSplitter.git
+git clone https://github.com/vkhorozian/MixSplitter.git
 cd MixSplitter
 pip install -r requirements.txt
 ```
