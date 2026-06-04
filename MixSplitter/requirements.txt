@@ -1,0 +1,4 @@
+PySide6
+pydub
+numpy
+audioop-lts; python_version >= "3.13"
