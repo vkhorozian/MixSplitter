@@ -6,11 +6,14 @@ Built with Python and PySide6 (Qt).
 
 ## Features
 
-- Load MP3 files and view a normalized waveform
-- Drag on the waveform to create time-based segments
+- Load MP3 files and view a normalized waveform with a time ruler
+- Zoom and pan the waveform for precise editing
+- Click or drag to scrub through the track with a moving playhead
+- Create segments manually with Shift + drag
+- Add markers and generate segments between markers (keeps existing manual segments)
+- Delete individual markers or clear all markers
 - Rename, select, and delete segments from the sidebar
-- Add markers and generate segments between markers
-- Play, pause, and stop playback with a moving playhead
+- Play, pause, and stop playback
 - Export all segments to MP3 in one click
 
 ## Requirements
@@ -36,24 +39,51 @@ pip install -r requirements.txt
 python main.py
 ```
 
+### Loading and playback
+
 1. Click **Load MP3** and choose your file.
-2. **Drag** left-to-right on the waveform to create a segment (selection must be longer than about 1 second).
-3. Optionally use **Rename** or **Delete** on the selected segment in the list.
-4. Use **Add Marker** / **Generate Segments** in the marker panel for marker-based splitting.
-5. Click **Export All** when ready.
+2. **Click or drag** on the waveform to move the red playhead and scrub through the track.
+3. Use **Play**, **Pause**, or **Stop**, or press **Space** to toggle playback.
+4. The timeline along the bottom shows time ticks and the current playhead position.
 
-Exported files are saved to:
+### Creating segments manually
 
-```
-Documents/MixSplitter/Exports/
-```
+1. Hold **Shift** and **drag** on the waveform to highlight a region (must be longer than about 1 second).
+2. The segment appears in the list on the right.
+3. Click a segment in the list to select it on the waveform.
+4. Use **Rename** or **Delete** to manage the selected segment.
 
-(on Windows: `C:\Users\<you>\Documents\MixSplitter\Exports\`)
+### Using markers
+
+Markers are useful when you want to split a mix at several points and generate segments between them.
+
+1. Move the playhead to the desired position.
+2. Press **M** or click **Add Marker** in the marker panel.
+3. Repeat for each split point (you need at least two markers to generate segments).
+4. Click **Generate Segments** to create segments between consecutive markers.
+   - Manually created segments are **kept** — generated segments are added to the list.
+5. To remove a bad marker, select it in the marker list and click **Delete Marker**.
+6. Click **Delete All Markers** to clear every marker from the waveform.
+
+### Zoom and pan
+
+- **Scroll wheel** on the waveform zooms in/out, centered on the cursor.
+- **Shift + scroll wheel** pans left/right when zoomed in.
+
+### Export
+
+1. Click **Export All** when your segments are ready.
+2. Files are saved to `Documents/MixSplitter/Exports/`  
+   (on Windows: `C:\Users\<you>\Documents\MixSplitter\Exports\`)
 
 ## Keyboard shortcuts
 
-| Key | Action |
-|-----|--------|
+| Input | Action |
+|-------|--------|
+| Click / drag on waveform | Move playhead (seek) |
+| `Shift` + drag on waveform | Create segment |
+| Scroll wheel on waveform | Zoom in / out (centered on cursor) |
+| `Shift` + scroll wheel | Pan left / right when zoomed |
 | `Space` | Play / pause |
 | `M` | Add marker at playhead |
 
@@ -79,8 +109,10 @@ MixSplitter/
 ## Notes
 
 - Large files (e.g. full festival sets) may take a few seconds to load while waveform data is built.
+- Generating segments from markers requires at least two markers.
+- Re-running **Generate Segments** will add another set of marker-based segments without removing manual ones.
 - Do not commit large sample MP3s to the repository; keep test audio local or use Git LFS if needed.
 
 ## License
 
-Add a license file (e.g. MIT) if you plan to share this project publicly.
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.

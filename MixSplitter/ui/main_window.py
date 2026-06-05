@@ -32,6 +32,8 @@ class MainWindow(QMainWindow):
         # waveform
         self.waveform = WaveformWidget(self)
         self.waveform.segments_changed.connect(self.refresh_segment_list)
+        self.waveform.seek_requested.connect(self.seek_audio)
+        self._ignore_position_updates = False
 
         # segment list panel
         self.segment_list = QListWidget()
@@ -102,6 +104,12 @@ class MainWindow(QMainWindow):
     def stop_audio(self):
         self.player.stop()
 
+    def seek_audio(self, seconds):
+        self._ignore_position_updates = True
+        self.player.setPosition(int(seconds * 1000))
+        self.waveform.set_playhead(seconds)
+        self._ignore_position_updates = False
+
     # ---------------- LOAD ----------------
 
     def load_file(self):
@@ -117,9 +125,10 @@ class MainWindow(QMainWindow):
         self.player.setSource(QUrl.fromLocalFile(file_path))
 
     def on_position_changed(self, position):
-        seconds = position / 1000.0
+        if self._ignore_position_updates:
+            return
 
-        self.waveform.set_playhead(seconds)
+        self.waveform.set_playhead(position / 1000.0)
 
 
     #----------------- Keyboard Shortcuts ----------------
@@ -134,9 +143,6 @@ class MainWindow(QMainWindow):
     
         elif event.key() == Qt.Key_M:
             self.waveform.add_marker()
-    
-            if hasattr(self, "marker_panel"):
-                self.marker_panel.refresh()
 
     # ---------------- SEGMENTS ----------------
 
